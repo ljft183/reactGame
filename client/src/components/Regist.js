@@ -8,17 +8,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-    hidden: {
-        display: 'none'
-    }
-});
 
 class Regist extends React.Component {
     constructor(props) { //insert 시킬 목록 및 method 초기화
         super(props);
+        this.wrapper = React.createRef();
         this.state = {
             name: '',
             time: 0.00,
@@ -34,19 +29,25 @@ class Regist extends React.Component {
 
     handleFormSubmit(e) {
         e.preventDefault()
-        if(this.state.name){
-            this.addCustomer()
-            .then((response) => {
-                console.log(response.data);
-            })
+        if(this.state.name.length<4){
+            if(this.state.name){
             
-            this.props.registHandle(1);
-            this.setState({
-                name: '',
-                time: 0.00,
-                open :false
-            })
-            this.props.stateRefresh();
+                this.addCustomer()
+                .then((response) => {
+                    console.log(response.data);
+                    this.props.stateRefresh();
+                })
+                this.props.registHandle(1);
+                this.setState({
+                    name: '',
+                    time: 0.00,
+                    open :false
+                })
+                
+            }
+        }
+        else{
+            alert("3글자 밑으로 입력");
         }
     }
 
@@ -68,6 +69,12 @@ class Regist extends React.Component {
         });
     }
 
+    componentDidUpdate(){
+        if(this.props.openRegist&&!this.state.open){
+            this.handleClickOpen();
+        }
+    }
+
     handleClose() {
         this.props.stateRefresh();
         this.props.registHandle(1);
@@ -79,17 +86,15 @@ class Regist extends React.Component {
     }
 
     render() {
-        if(this.props.openRegist&&!this.state.open){
-            this.handleClickOpen();
-        }
+
         return (
-            <div>
+            <div ref={this.wrapper}>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>점수 등록</DialogTitle>
 
                     <DialogContent>
-                        <TextField type="text" name="name" value={this.state.name} onChange={this.handleValueChange} /><br />
-                        <TextField type="text" name="time" value={this.props.time} readonly/><br />
+                        <TextField type="text" placeholder="3글자 아래로 가능" name="name" value={this.state.name} onChange={this.handleValueChange} /><br />
+                        <TextField type="text" name="time" value={this.props.time} readOnly={true}/><br />
                     </DialogContent>
 
                     <DialogActions>
@@ -102,4 +107,4 @@ class Regist extends React.Component {
     }
 }
 
-export default withStyles(styles)(Regist)
+export default Regist;

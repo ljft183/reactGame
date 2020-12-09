@@ -1,5 +1,4 @@
 import React from 'react';
-import Regist from './Regist';
 
 class Game extends React.Component {
     constructor(props){

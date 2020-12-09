@@ -93,6 +93,7 @@ const styles = theme => ({
 class App extends Component {
   constructor(props) {
     super(props);
+    this.wrapper = React.createRef();
     this.state = {
       rank: '', //DB에서 가져올 rank정보
       stateSquare: 0,
@@ -140,7 +141,6 @@ class App extends Component {
 
   stateRefresh() {
     this.setState({
-      rank: '',
       stateSquare: 0,
       squares: [],
       clear : 0
@@ -170,7 +170,7 @@ class App extends Component {
     console.log(this.state.squares);
     const { classes } = this.props;
     return (
-      <div>
+      <div ref={this.wrapper}>
         <AppBar position="static">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
@@ -180,17 +180,21 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         <div className="table">          
-            <table>
-              <tbody>
-                <tr>
-                  <td>- -Ranking- -</td>
-                  <td>- -name- -</td>
-                  <td>- -Record- -</td>
-                </tr>
-                {this.state.rank ? filteredComponents(this.state.rank) : console.log("데이터가 존재하지 않습니다.")}
-              </tbody>
-            </table>
-          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>- -Ranking- -</td>
+                <td>- -name- -</td>
+                <td>- -Record- -</td>
+              </tr>
+              {this.state.rank ? filteredComponents(this.state.rank) : console.log("데이터가 존재하지 않습니다.")}
+            </tbody>
+          </table>
+        </div>
+        <div className="description">
+          <br/>
+          1~16을 순서대로 누르는 게임&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
         <div className="center">
           <StopWatch square={this.state.stateSquare} clear={this.state.clear} stateRefresh={this.stateRefresh}/>
           <Game square={this.state.stateSquare} squares={this.state.squares} stateChange={this.stateChange} correctSelect={this.correctSelect} />
