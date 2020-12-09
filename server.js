@@ -29,12 +29,22 @@ connection.connect();
 
 app.get('/rank', (req, res) => {
     connection.query(
-        'SELECT *, rank() over(order by time asc) AS ranking FROM GAMERECORD LIMIT 20',
+        'SELECT *, rank() over(order by time asc) AS ranking FROM GAMERECORD',
         (err, rows, fields) => {
             res.send(rows);
             }
     )
 });
+
+app.get('/rankCount', (req, res) => {
+    connection.query(
+        'SELECT count(*) AS "count" FROM GAMERECORD',
+        (err, rows, fields) => {
+            res.send(rows);
+            }
+    )
+});
+
 app.post('/regist', (req, res) => {
     let sql = 'INSERT INTO GAMERECORD VALUES (?, ?, null)';
     

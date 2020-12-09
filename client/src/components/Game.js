@@ -28,16 +28,6 @@ class Game extends React.Component {
                 }
                 this.props.correctSelect(j);
             }
-            else{
-                if(this.state.life===3){
-
-                }
-                else{
-                    this.setState({
-                        life : this.state.life+1
-                    });
-                }
-            }
         }
         else{
             alert("게임을 먼저 시작할 것");

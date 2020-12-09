@@ -98,17 +98,25 @@ class App extends Component {
       rank: '', //DB에서 가져올 rank정보
       stateSquare: 0,
       squares: [],
-      clear:0
+      clear:0,
+      count:'',
+      page:1
     }
     this.gameStart = this.gameStart.bind(this)
     this.stateRefresh = this.stateRefresh.bind(this)
     this.stateChange = this.stateChange.bind(this)
     this.correctSelect = this.correctSelect.bind(this)
+    this.prevBtn = this.prevBtn.bind(this)
+    this.nextBtn = this.nextBtn.bind(this)
   }
   componentDidMount() {
     this.callApi()
-        .then(res => this.setState({ rank: res }))
-        .catch(err => console.log(err));
+      .then(res => this.setState({ rank: res }))
+      .catch(err => console.log(err));
+
+    this.callApi2()
+      .then(res => this.setState({ count: res}))
+      .catch(err => console.log(err));
   }
 
   stateChange = (res) => { //게임이 종료되었을 시 state 변경
@@ -124,6 +132,12 @@ class App extends Component {
 
   callApi = async () => {
     const response = await fetch('/rank');
+    const body = await response.json();
+    return body; //서버에서 값을 받아 return
+  }
+
+  callApi2 = async () => {
+    const response = await fetch('/rankCount');
     const body = await response.json();
     return body; //서버에서 값을 받아 return
   }
@@ -145,9 +159,12 @@ class App extends Component {
       squares: [],
       clear : 0
     });
-     this.callApi()
+    this.callApi()
        .then(res => this.setState({ rank: res }))
        .catch(err => console.log(err));
+    this.callApi2()
+      .then(res => this.setState({ count: res}))
+      .catch(err => console.log(err));
   }
 
   gameStart() {
@@ -161,13 +178,30 @@ class App extends Component {
     });
   }
 
+  prevBtn(){
+    if(this.state.page>1){
+      this.setState({
+        page : this.state.page - 1
+      });
+    }
+  }
+  nextBtn(){
+    if(this.state.page<(this.state.count[0].count)/20){
+      this.setState({
+        page : this.state.page + 1
+      });
+    }
+  }
+
   render() {
     const filteredComponents = (data) => {
+      data = data.filter((c) => {
+        return (c.ranking > (this.state.page-1)*20 && c.ranking<=this.state.page*20);
+      });
       return data.map((c) => {
           return <Rank key={c.id} name={c.name} rank={c.ranking} time={c.time}/>
       });
     }
-    console.log(this.state.squares);
     const { classes } = this.props;
     return (
       <div ref={this.wrapper}>
@@ -190,6 +224,10 @@ class App extends Component {
               {this.state.rank ? filteredComponents(this.state.rank) : console.log("데이터가 존재하지 않습니다.")}
             </tbody>
           </table>
+          <div>
+            <button onClick={this.prevBtn}>이전</button>
+            <button onClick={this.nextBtn}>다음</button>
+          </div>
         </div>
         <div className="description">
           <br/>

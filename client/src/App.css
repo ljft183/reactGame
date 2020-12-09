@@ -1,6 +1,7 @@
 .center{
   text-align: center;
   position: relative;
+  margin : 0 350px 0 350px;
 }
 
 .entry{
@@ -18,6 +19,7 @@
 .table{
   position : absolute;
   left : 0;
+  text-align: center;
 }
 
 .square {
