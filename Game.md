@@ -5,6 +5,9 @@
 - 잦은 update를 사용한 구조 생성 경험
 - Node.js 를 이용한 REST API 구성 및 AWS 이용해보는 예제
 
+## 구성
+![app](/client/image/app.PNG)
+
 ## 설명
 
 시작 버튼을 눌러 나오는 1~16 까지의 수를 순서대로 얼마나  
