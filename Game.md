@@ -6,7 +6,7 @@
 - Node.js 를 이용한 REST API 구성 및 AWS 이용해보는 예제
 
 ## 구성
-![app](/client/image/app.PNG)
+![app](/client/image/app.png)
 
 ## 설명
 
