@@ -11,16 +11,16 @@
 ## 진행 화면
 
 ### 첫 화면
-![main](./image/main.PNG)
+![main](/client/image/main.PNG)
 
 ### 점수 표 페이징 확인
-![paging](./image/paging.PNG)
+![paging](/client/image/paging.PNG)
 
 ### 게임 진행 중 화면
-![run](./image/run.PNG)
+![run](/client/image/run.PNG)
 
 ### 게임 완료 시 점수 등록 화면
-![regist](./image/regist.PNG)
+![regist](/client/image/regist.PNG)
 
 ### 갱신된 점수 확인
-![result](./image/result.PNG)
+![result](/client/image/result.PNG)
